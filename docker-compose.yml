@@ -4,12 +4,13 @@ services:
     image: mysql:latest
     restart: always
     environment:
-      - MYSQL_USER=admin
-      - MYSQL_PASSWORD=admin
-      - MYSQL_DATABASE=task
-      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: MyPassword1
+      MYSQL_DATABASE: task
+      MYSQL_ROOT_PASSWORD: MyPassword1
+      MYSQL_TCP_PORT: 3307
     ports:
-      - "3306:3306"
+      - "3307:3307"
   taskapi:
     build: './task-backend'
     container_name: taskapi
@@ -18,10 +19,10 @@ services:
       - taskdb
     environment:
       - DB_HOST=taskdb
-      - DB_PORT=3306
+      - DB_PORT=3307
       - DB_NAME=task
-      - DB_USERNAME=admin
-      - DB_PASSWORD=admin
+      - DB_USERNAME=root
+      - DB_PASSWORD=MyPassword1
     ports: 
       - 8082:8082
     
