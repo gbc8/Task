@@ -1,0 +1,27 @@
+version: '3'
+services:
+  taskdb:
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_DATABASE=task
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+    ports:
+      - "3306:3306"
+  taskapi:
+    build: './task-backend'
+    container_name: taskapi
+    restart: always
+    depends_on: 
+      - taskdb
+    environment:
+      - DB_HOST=taskdb
+      - DB_PORT=3306
+      - DB_NAME=task
+      - DB_USERNAME=admin
+      - DB_PASSWORD=admin
+    ports: 
+      - 8082:8082
+    
