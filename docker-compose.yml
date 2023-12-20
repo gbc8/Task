@@ -25,4 +25,14 @@ services:
       - DB_PASSWORD=MyPassword1
     ports: 
       - 8082:8082
-    
+  taskui:
+    container_name: taskui
+    build: ./task-frontend
+    depends_on: 
+      - taskapi
+    ports:
+      - 3000:3000
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm start
