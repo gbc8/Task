@@ -1,8 +1,8 @@
 package com.gbc8.task.util;
 
+import com.gbc8.task.negocio.tarefa.Tarefa;
+
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,5 +14,13 @@ public class TarefaDTO {
 	private String titulo;
 	@NotBlank(message = "O campo descricao deve ser diferente dos valores: null e vazio.")
 	private String descricao;
+	private String status;
 	private String imgPath;
+	
+	public TarefaDTO(Tarefa tarefa) {
+		this.titulo = tarefa.getTitulo();
+		this.descricao = tarefa.getDescricao();
+		this.status = tarefa.getStatus();
+		this.imgPath = tarefa.getImgPath();
+	}
 }

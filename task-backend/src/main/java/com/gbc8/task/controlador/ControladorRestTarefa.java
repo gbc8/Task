@@ -1,9 +1,5 @@
 package com.gbc8.task.controlador;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gbc8.task.controlador.exception.NotFoundException;
@@ -30,6 +25,8 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/tarefa")
 public class ControladorRestTarefa {
+	
+	private final static String STATUS_CONCLUIDA = "Concluída";
 	
 	private IFachada fachada;
 	
@@ -49,13 +46,16 @@ public class ControladorRestTarefa {
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<Tarefa> inserirTarefa(@RequestBody @Valid TarefaDTO produto){
-		return ResponseEntity.ok().body(fachada.inserir(produto));
+	public ResponseEntity<Tarefa> inserirTarefa(@RequestBody @Valid TarefaDTO tarefa){
+		tarefa.setStatus("Pendente");
+		return ResponseEntity.ok().body(fachada.inserir(tarefa));
 	}
 	
 	@PutMapping("{id}")
-	public ResponseEntity<Tarefa> atualizarTarefa(@RequestBody @Valid TarefaDTO tarefaDTO, @PathVariable Long id) throws NotFoundException{
-		return ResponseEntity.ok().body(fachada.atualizar(tarefaDTO, id));
+	public ResponseEntity<Tarefa> concluirTarefa(@PathVariable Long id) throws NotFoundException{
+		TarefaDTO tarefa = new TarefaDTO(fachada.getById(id));
+		tarefa.setStatus(STATUS_CONCLUIDA);
+		return ResponseEntity.ok().body(fachada.atualizar(tarefa, id));
 	}
 	
 	@DeleteMapping("{id}")

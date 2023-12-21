@@ -25,6 +25,8 @@ public class Tarefa {
 	private String titulo;
 	@Column(name = "DESCRICAO", nullable = false)
 	private String descricao;
+	@Column(name = "STATUS", nullable = false)
+	private String status;
 	@Column(name = "img")
 	private String imgPath;
 	
@@ -32,6 +34,7 @@ public class Tarefa {
 		this.id = id;
 		this.titulo = item.getTitulo();
 		this.descricao = item.getDescricao();
+		this.status = item.getStatus();
 		this.imgPath = item.getImgPath();
 	}
 }
